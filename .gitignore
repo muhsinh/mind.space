@@ -1,0 +1,18 @@
+# Ignore Virtual Environment (Thousands of files)
+venv/
+__pycache__/
+*.pyc
+
+# Ignore Runtime Logs (Can get huge)
+*.log
+logic.log
+chaos.log
+writer.log
+
+# Ignore Output Data (Optional, keep if you want to save results)
+# mindspace_results.jsonl
+
+# Ignore IDE settings
+.vscode/
+.idea/
+.DS_Store
