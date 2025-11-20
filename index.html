@@ -463,7 +463,8 @@
                             <div class="dot yellow"></div>
                             <div class="dot green"></div>
                         </div>
-                        <div class="terminal-title" style="color: #666;">root@h200:~/mindspace/logs</div>
+                        <!-- Added ID terminal-title for JS targeting -->
+                        <div class="terminal-title" id="terminal-title" style="color: #666; font-family: 'JetBrains Mono', monospace;">root@h200:~/mindspace/logs</div>
                     </div>
                     <div class="terminal-body" id="logs">
                         <!-- JS populates this -->
@@ -627,6 +628,12 @@
                 if (i === index) dot.classList.add('active');
                 else dot.classList.remove('active');
             });
+            
+            // Update Terminal Title dynamically to show scenario name nicely
+            const titleEl = document.getElementById('terminal-title');
+            if (titleEl) {
+                titleEl.innerHTML = `<span style="color: #666;">>></span> <span style="color: #BFECE8; font-weight: bold;">${data.title}</span>`;
+            }
 
             // Render Logs with typing effect
             data.logs.forEach((log, i) => {
