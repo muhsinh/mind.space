@@ -20,13 +20,13 @@
 
         body {
             background-color: var(--bg);
-            /* Dual Gradient: 
-               1. Teal side light (top right)
-               2. Deep Indigo Blue (#0f0e50) flowing from top center 
+            /* UPDATED GRADIENT:
+               Starts in the top-right corner (100% 0%) for the "side lighting" feel
+               on all pages as you scroll.
             */
             background-image: 
-                radial-gradient(circle at 90% 5%, rgba(191, 236, 232, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 50% -10%, #0f0e50 0%, #020205 80%);
+                radial-gradient(circle at 95% 0%, rgba(191, 236, 232, 0.05) 0%, transparent 30%),
+                radial-gradient(circle at 100% 0%, #0f0e50 0%, #020205 70%);
             background-attachment: fixed;
             color: var(--text);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -62,6 +62,7 @@
             width: 100%;
         }
 
+        /* HEADER SPECIFIC STYLES */
         header {
             min-height: 100vh;
             display: flex;
@@ -69,8 +70,21 @@
             justify-content: center;
             padding: 0 2rem;
             border-bottom: 1px solid var(--border);
-            /* Subtle overly to make text pop against the blue gradient */
-            background: linear-gradient(to bottom, transparent, rgba(2, 2, 5, 0.8));
+            /* UPDATED HEADER BG:
+               Overrides the body corner gradient with a CENTERED gradient
+               just for the first page.
+            */
+            background: radial-gradient(circle at 50% 20%, #0f0e50 0%, #020205 80%);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Centered Links for Header */
+        header .social-links {
+            display: flex;
+            justify-content: center; /* Centers the links */
+            gap: 2rem;
+            margin-top: 4rem;
         }
 
         .meta {
@@ -318,7 +332,7 @@
             <p style="font-size: 1.8rem; color: #fff; font-weight: 300; line-height: 1.4;">A smart safety system for AI therapy.</p>
             <p>Moving beyond simple pass/fail safety checks. We look inside the AI's mind to understand <em>why</em> it answers the way it does.</p>
             
-            <div class="social-links" style="margin-top: 4rem;">
+            <div class="social-links">
                 <a href="https://www.linkedin.com/in/abdulmuhsinhameed" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
                 <a href="https://github.com/muhsinh/mind.space" target="_blank"><i class="fab fa-github"></i> GitHub Repository</a>
             </div>
