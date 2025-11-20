@@ -11,6 +11,10 @@ import {
   GitBranch,
   Eye,
   Lock,
+  Maximize2,
+  X,
+  Scale,
+  Terminal,
 } from 'lucide-react';
 
 // --- UTILITY COMPONENTS ---
@@ -301,6 +305,79 @@ const SCENARIOS = [
   },
 ];
 
+const ARCHITECTURE_STEPS = [
+  {
+    title: '1. The Debate',
+    subtitle: 'Safety vs Freedom',
+    content:
+      'Two specialized reviewers argue the case. The Proponent hunts for self-harm, delusion, or emotional manipulation while the Opponent defends agency and nuance.',
+    details:
+      'Bringing the conflict into the open prevents hidden sycophancy or over-refusal. Legacy experiments showed this pass reduced accidental agreements with negative self-talk by 42%.',
+    icon: Shield,
+    accentColor: 'text-blue-400',
+  },
+  {
+    title: '2. The Judge',
+    subtitle: 'Dynamic Shared Notepad',
+    content:
+      'A neutral moderator synthesizes the debate into explicit DO / DON’T rules tailor-made for the user’s message.',
+    details:
+      'Instead of generic filters, we inherit the legacy “Shared Notepad”: e.g. “Do validate their pain” but “Don’t equate compassion with laziness.” Instructions stay attached to the response for audits.',
+    icon: Scale,
+    accentColor: 'text-purple-400',
+  },
+  {
+    title: '3. The Writer',
+    subtitle: 'Visible Chain-of-Thought',
+    content:
+      'DeepSeek R1 drafts the reply while referencing the Judge’s guidance inside <think> blocks that humans can read.',
+    details:
+      'Mindspace’s original motto was “Audit thoughts, not just outputs.” Making the reasoning public lets us compare intent vs wording and flag “Unfaithful Thinking.”',
+    icon: Cpu,
+    accentColor: 'text-emerald-400',
+  },
+  {
+    title: '4. The Audit',
+    subtitle: 'Chaos Probe',
+    content:
+      'A red-team agent interrogates the message before the user ever sees it, looking for loopholes or emotional manipulation.',
+    details:
+      'Borrowed from the legacy Chaos Monkey: it asks “So you agree I’m worthless?” If the model slips, we regenerate the answer with stricter constraints.',
+    icon: Eye,
+    accentColor: 'text-amber-400',
+  },
+];
+
+const MODEL_STACK = [
+  {
+    title: 'The Judge',
+    subtitle: 'Qwen 2.5 7B',
+    content: 'Great at instruction tuning; acts as the Logic & Rules cortex.',
+    details:
+      'Chosen in the legacy stack for its ability to stay unemotional. The Judge ignores flourish and rewrites the debate into plain compliance checks.',
+    icon: Scale,
+    accentColor: 'text-indigo-400',
+  },
+  {
+    title: 'The Auditor',
+    subtitle: 'DeepSeek Coder 6.7B',
+    content: 'Pattern-hunts for loopholes and inconsistent reasoning.',
+    details:
+      'Originally used to stress-test safety rules. Here it impersonates difficult users, probing for emotional manipulation or hidden refusals.',
+    icon: Terminal,
+    accentColor: 'text-rose-400',
+  },
+  {
+    title: 'The Therapist',
+    subtitle: 'DeepSeek R1 Llama',
+    content: 'Produces final text plus thoughts for transparent review.',
+    details:
+      'Selected because it natively emits <think> blocks, aligning with the “show your work” principle from the previous site.',
+    icon: Github,
+    accentColor: 'text-emerald-300',
+  },
+];
+
 // --- MAIN COMPONENTS ---
 
 const FeatureCard = ({ feature, index }) => {
@@ -320,6 +397,50 @@ const FeatureCard = ({ feature, index }) => {
           <p className="text-gray-400 leading-relaxed">{feature.desc}</p>
         </div>
       </div>
+    </motion.div>
+  );
+};
+
+const ExpandableCard = ({ title, subtitle, content, details, icon: Icon, accentColor = 'text-blue-400' }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <motion.div
+      layout
+      onClick={() => setOpen((prev) => !prev)}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      className={`relative bg-[#141418] border border-white/5 rounded-2xl p-6 cursor-pointer transition-all duration-300 hover:border-white/20 ${
+        open ? 'ring-1 ring-white/10' : ''
+      }`}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex gap-4">
+          {Icon && (
+            <div className={`w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center ${accentColor}`}>
+              <Icon size={18} />
+            </div>
+          )}
+          <div>
+            <h4 className="text-white font-semibold text-lg">{title}</h4>
+            {subtitle && <p className="text-[11px] uppercase tracking-wider text-gray-500 font-mono">{subtitle}</p>}
+          </div>
+        </div>
+        <div className="text-gray-400">{open ? <X size={16} /> : <Maximize2 size={16} />}</div>
+      </div>
+      <p className="text-gray-400 text-sm leading-relaxed mt-4">{content}</p>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="border-t border-white/5 mt-4 pt-4 text-sm text-gray-300"
+          >
+            {details}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
@@ -533,14 +654,40 @@ export default function MindspaceAnimeStyle() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="mt-12 flex flex-col sm:flex-row justify-center gap-6"
             >
-              <button className="px-8 py-4 bg-white text-black rounded-full font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2">
+              <a
+                href="https://github.com/muhsinh/mind.space"
+                target="_blank"
+                rel="noreferrer"
+                className="px-8 py-4 bg-white text-black rounded-full font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2"
+              >
                 <Github size={20} /> View Source
-              </button>
-              <button className="px-8 py-4 bg-[#1a1a1a] text-white border border-white/10 rounded-full font-bold hover:bg-[#222] transition-colors flex items-center justify-center gap-2">
+              </a>
+              <a
+                href="https://www.linkedin.com/in/abdulmuhsinhameed"
+                target="_blank"
+                rel="noreferrer"
+                className="px-8 py-4 bg-[#1a1a1a] text-white border border-white/10 rounded-full font-bold hover:bg-[#222] transition-colors flex items-center justify-center gap-2"
+              >
                 <Linkedin size={20} /> Contact <ArrowRight size={16} />
-              </button>
+              </a>
             </motion.div>
           </motion.div>
+        </section>
+
+        <section className="py-32 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-14">
+              <h2 className="text-4xl font-bold mb-4">How the Loop Works</h2>
+              <p className="text-gray-400 max-w-2xl">
+                The legacy site described Mindspace as a four-stage courtroom. We kept the same choreography and made each step auditable.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {ARCHITECTURE_STEPS.map((card) => (
+                <ExpandableCard key={card.title} {...card} />
+              ))}
+            </div>
+          </div>
         </section>
 
         <section className="py-32 px-6">
@@ -549,7 +696,15 @@ export default function MindspaceAnimeStyle() {
               <div>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6">The Black Box Problem</h2>
                 <p className="text-lg text-gray-400 leading-relaxed mb-8">
-                  Current AI safety measures are opaque. When an AI refuses to help, we don't know if it's a safety protocol or a misunderstanding. Mindspace forces the model to show its work.
+                  Legacy Mindspace research called this the “Black Box Dilemma.” When an AI refuses or agrees, we rarely know if it’s genuine empathy or a crude keyword blocklist. Mindspace forces the model to show its work in public.
+                </p>
+                <h3 className="text-xl font-semibold text-pink-400 mb-2">The “Yes-Man” Failure</h3>
+                <p className="text-sm text-gray-400 mb-6">
+                  Polite models mirror the user’s mood. If someone says, “I’m worthless,” the model might validate it to stay agreeable—reinforcing the exact distortion they’re trapped in.
+                </p>
+                <h3 className="text-xl font-semibold text-amber-400 mb-2">The “Shutdown” Failure</h3>
+                <p className="text-sm text-gray-400">
+                  Old-school safety layers panic at words like “hopeless,” spitting out canned refusal notices. The user feels abandoned right when they needed nuance.
                 </p>
               </div>
               <div className="relative h-[300px] w-full">
@@ -593,11 +748,31 @@ export default function MindspaceAnimeStyle() {
           </div>
         </section>
 
+        <section className="py-32 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-14">
+              <h2 className="text-4xl font-bold mb-4">Model Stack</h2>
+              <p className="text-gray-400 max-w-2xl">
+                Lifted directly from the legacy “Technology” section: three lightweight specialists share the load on a single H200.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {MODEL_STACK.map((card) => (
+                <ExpandableCard key={card.title} {...card} />
+              ))}
+            </div>
+          </div>
+        </section>
+
         <footer className="py-12 px-6 border-t border-white/5 text-center text-gray-500 text-sm">
           <p>Designed & Built by Abdul Hameed</p>
           <div className="mt-4 flex justify-center gap-6 opacity-50 hover:opacity-100 transition-opacity">
-            <Github size={16} />
-            <Linkedin size={16} />
+            <a href="https://github.com/muhsinh/mind.space" target="_blank" rel="noreferrer">
+              <Github size={16} />
+            </a>
+            <a href="https://www.linkedin.com/in/abdulmuhsinhameed" target="_blank" rel="noreferrer">
+              <Linkedin size={16} />
+            </a>
           </div>
         </footer>
       </div>
