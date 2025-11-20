@@ -1,0 +1,37 @@
+{
+  "name": "mind.space",
+  "version": "1.0.0",
+  "description": "Mindspace | Psychological Auditing",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && gh-pages -d dist -b gh-pages"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhsinh/mind.space.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/muhsinh/mind.space/issues"
+  },
+  "homepage": "https://muhsinh.github.io/mind.space/",
+  "dependencies": {
+    "framer-motion": "^12.23.24",
+    "lucide-react": "^0.554.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.22",
+    "gh-pages": "^6.3.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.14",
+    "vite": "^7.2.4"
+  }
+}
