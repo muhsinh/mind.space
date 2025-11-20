@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #050505;
+            --bg: #020205; /* Very dark base */
             --text: #e0e0e0;
             --accent: #BFECE8; /* Pastel Teal */
-            --secondary: #888;
-            --code-bg: #0f0f0f;
-            --border: #222;
+            --secondary: #a0a0b0; /* Slightly cool-toned gray to match blue */
+            --code-bg: rgba(15, 20, 35, 0.6); /* Semi-transparent dark blue tint */
+            --border: rgba(255, 255, 255, 0.08);
             --highlight: #1a1a1a;
         }
 
@@ -20,6 +20,14 @@
 
         body {
             background-color: var(--bg);
+            /* Dual Gradient: 
+               1. Teal side light (top right)
+               2. Deep Indigo Blue (#0f0e50) flowing from top center 
+            */
+            background-image: 
+                radial-gradient(circle at 90% 5%, rgba(191, 236, 232, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% -10%, #0f0e50 0%, #020205 80%);
+            background-attachment: fixed;
             color: var(--text);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.8;
@@ -28,11 +36,11 @@
         }
 
         /* Typography */
-        h1, h2, h3, h4 { font-weight: 700; letter-spacing: -0.02em; color: #fff; }
-        h1 { font-size: clamp(3rem, 8vw, 6rem); line-height: 1.1; margin-bottom: 1.5rem; }
-        h2 { font-size: 3rem; margin-bottom: 2rem; color: var(--accent); }
+        h1, h2, h3, h4, h5 { font-weight: 700; letter-spacing: -0.02em; color: #fff; }
+        h1 { font-size: clamp(3.5rem, 8vw, 6.5rem); line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 0 30px rgba(15, 14, 80, 0.5); }
+        h2 { font-size: 3rem; margin-bottom: 3rem; color: var(--accent); text-align: center; text-shadow: 0 0 20px rgba(191, 236, 232, 0.2); }
         h3 { font-size: 1.8rem; margin: 3rem 0 1.5rem; color: #fff; border-left: 4px solid var(--accent); padding-left: 1rem; }
-        p { margin-bottom: 1.5rem; font-size: 1.15rem; color: #bbb; max-width: 70ch; }
+        p { margin-bottom: 1.5rem; font-size: 1.15rem; color: #ccc; max-width: 70ch; }
         
         a { color: var(--accent); text-decoration: none; transition: 0.3s; border-bottom: 1px dotted var(--accent); }
         a:hover { color: #fff; border-bottom: 1px solid #fff; }
@@ -45,10 +53,11 @@
             justify-content: center;
             padding: 6rem 2rem;
             border-bottom: 1px solid var(--border);
+            background: transparent;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             width: 100%;
         }
@@ -60,7 +69,8 @@
             justify-content: center;
             padding: 0 2rem;
             border-bottom: 1px solid var(--border);
-            background: radial-gradient(circle at 50% 50%, #111 0%, #050505 70%);
+            /* Subtle overly to make text pop against the blue gradient */
+            background: linear-gradient(to bottom, transparent, rgba(2, 2, 5, 0.8));
         }
 
         .meta {
@@ -72,57 +82,80 @@
             letter-spacing: 0.05em;
         }
 
-        /* Cards */
+        /* Grids */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin: 4rem 0;
+            margin: 2rem 0;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
         }
 
         .card {
             background: var(--code-bg);
+            backdrop-filter: blur(10px); /* Glassmorphism effect */
             padding: 2.5rem;
             border: 1px solid var(--border);
             border-radius: 12px;
-            transition: transform 0.3s, border-color 0.3s;
+            transition: transform 0.3s, border-color 0.3s, background 0.3s;
             height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
         }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .card h4 { color: var(--accent); margin-bottom: 0.8rem; font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; }
+        .card:hover { 
+            transform: translateY(-5px); 
+            border-color: var(--accent); 
+            background: rgba(20, 25, 45, 0.8);
+        }
+        .card h4 { color: var(--accent); margin-bottom: 0.8rem; font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; }
         .card span { display: block; font-size: 0.9rem; color: var(--secondary); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        .card p { font-size: 1rem; margin-bottom: 0; color: #ccc; }
-        
-        /* Metric Cards (Smaller) */
-        .metric-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
+        .card p { font-size: 1.05rem; margin-bottom: 0; color: #ddd; flex-grow: 1; }
+
+        /* Metric Cards (Larger) */
         .metric-card {
-            background: #0a0a0a;
-            border: 1px solid #333;
-            padding: 1.5rem;
+            background: rgba(10, 10, 15, 0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
             border-radius: 8px;
+            transition: 0.3s;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        .metric-card h5 { color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;}
-        .metric-card h5 i { color: var(--accent); font-size: 0.9rem; }
-        .metric-card p { font-size: 0.95rem; color: #888; margin: 0; line-height: 1.5; }
+        .metric-card:hover { border-color: var(--accent); background: rgba(20, 25, 40, 0.7); }
+        .metric-card h5 { color: #fff; font-size: 1.4rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 12px;}
+        .metric-card h5 i { color: var(--accent); font-size: 1.2rem; }
+        .metric-card p { font-size: 1.1rem; color: #a0a0b0; margin: 0; line-height: 1.6; }
 
 
         /* Terminal & Logs */
+        .terminal-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
         .terminal-window {
-            background: #000;
+            background: rgba(0, 0, 0, 0.85);
             border: 1px solid var(--border);
             border-radius: 12px;
             margin-top: 3rem;
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
             overflow: hidden;
             position: relative;
+            backdrop-filter: blur(5px);
         }
         .terminal-header {
-            background: #111;
+            background: rgba(20, 20, 25, 0.9);
             padding: 1rem 1.5rem;
             display: flex;
             align-items: center;
@@ -139,12 +172,12 @@
             padding: 2.5rem;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.95rem;
-            height: 600px;
+            height: 550px;
             overflow-y: auto;
             scroll-behavior: smooth;
         }
 
-        .log-entry { margin-bottom: 1.5rem; display: flex; flex-direction: column; opacity: 0; animation: fadeIn 0.4s forwards; border-bottom: 1px solid #1a1a1a; padding-bottom: 1.2rem; }
+        .log-entry { margin-bottom: 1.5rem; display: flex; flex-direction: column; opacity: 0; animation: fadeIn 0.4s forwards; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.2rem; }
         .log-meta { display: flex; margin-bottom: 0.5rem; font-size: 0.85rem; color: #666; }
         .log-type { font-weight: bold; margin-right: 1rem; display: inline-block;}
         .log-content { color: #ccc; white-space: pre-wrap; word-wrap: break-word; line-height: 1.6;}
@@ -156,7 +189,7 @@
         .type-THOUGHT { 
             color: #6a9fb5; 
             font-style: normal; 
-            background: #0a161a; 
+            background: rgba(10, 22, 26, 0.5); 
             padding: 1rem; 
             border-radius: 4px; 
             display: block; 
@@ -168,19 +201,44 @@
 
         @keyframes fadeIn { to { opacity: 1; } }
 
-        /* Navigation Dots */
-        .carousel-nav {
+        /* Navigation Arrows & Dots */
+        .nav-controls {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            align-items: center;
+            gap: 2rem;
             padding: 1.5rem;
-            background: #111;
+            background: rgba(20, 20, 25, 0.9);
             border-top: 1px solid var(--border);
-            flex-wrap: wrap;
+        }
+
+        .arrow-btn {
+            background: transparent;
+            border: 1px solid #333;
+            color: var(--secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2rem;
+        }
+        .arrow-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(191, 236, 232, 0.1);
+        }
+
+        .carousel-nav {
+            display: flex;
+            gap: 1rem;
         }
         .nav-dot {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background: #333;
             cursor: pointer;
@@ -188,7 +246,7 @@
             border: 2px solid transparent;
         }
         .nav-dot:hover { background: #666; }
-        .nav-dot.active { background: var(--accent); transform: scale(1.2); box-shadow: 0 0 10px rgba(191, 236, 232, 0.3); }
+        .nav-dot.active { background: var(--accent); transform: scale(1.3); box-shadow: 0 0 10px rgba(191, 236, 232, 0.3); }
         
         /* Tooltip for dots */
         .nav-dot { position: relative; }
@@ -212,7 +270,7 @@
         }
 
         /* References */
-        .references-list { list-style: none; margin-top: 2rem; }
+        .references-list { list-style: none; margin-top: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; }
         .references-list li { margin-bottom: 3rem; padding-left: 2rem; border-left: 3px solid var(--secondary); transition: 0.3s; }
         .references-list li:hover { border-left-color: var(--accent); }
         .ref-title { color: #fff; font-weight: 700; font-size: 1.4rem; display: block; margin-bottom: 0.5rem; }
@@ -241,10 +299,12 @@
         }
 
         /* Mobile Tweaks */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
             h1 { font-size: 3.5rem; }
             .terminal-body { padding: 1rem; }
             .log-entry { font-size: 0.85rem; }
+            .nav-controls { gap: 1rem; }
         }
 
     </style>
@@ -269,24 +329,27 @@
     <section>
         <div class="container">
             <h2>The Problem</h2>
-            <p>Modern AI safety has a blind spot. Standard training methods (like RLHF) have made models polite, but they have also created a "Black Box" where we don't know why a model decides to be safe. This leads to two major problems when users discuss mental health:</p>
-            
-            <h3>1. The "Yes-Man" Problem (Sycophancy)</h3>
-            <p>In an attempt to be helpful, AI often mirrors the user's mood. If a user says, <em>"I'm worthless,"</em> a poorly trained AI might accidentally agree with that feeling to stay on the user's "good side," which reinforces their negative thoughts.</p>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <p>Modern AI safety has a blind spot. Standard training methods (like RLHF) have made models polite, but they have also created a "Black Box" where we don't know why a model decides to be safe. This leads to two major problems when users discuss mental health:</p>
+                
+                <h3>1. The "Yes-Man" Problem (Sycophancy)</h3>
+                <p>In an attempt to be helpful, AI often mirrors the user's mood. If a user says, <em>"I'm worthless,"</em> a poorly trained AI might accidentally agree with that feeling to stay on the user's "good side," which reinforces their negative thoughts.</p>
 
-            <h3>2. The "Shutdown" Problem (Over-Refusal)</h3>
-            <p>On the flip side, if the AI sees a scary keyword like "hopeless," it often panics and blocks the conversation entirely with a generic "Seek Professional Help" message. This leaves the user feeling isolated right when they needed someone to listen.</p>
+                <h3>2. The "Shutdown" Problem (Over-Refusal)</h3>
+                <p>On the flip side, if the AI sees a scary keyword like "hopeless," it often panics and blocks the conversation entirely with a generic "Seek Professional Help" message. This leaves the user feeling isolated right when they needed someone to listen.</p>
 
-            <p style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 2rem;"><strong>The Solution:</strong> Mindspace sits in the middle. It creates a transparent thinking process so we can guide the AI to be supportive without being dangerous.</p>
+                <p style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 2rem;"><strong>The Solution:</strong> Mindspace sits in the middle. It creates a transparent thinking process so we can guide the AI to be supportive without being dangerous.</p>
+            </div>
         </div>
     </section>
 
     <section>
         <div class="container">
             <h2>The Solution</h2>
-            <p>Instead of relying on one AI brain to do everything, Mindspace uses a <strong>Multi-Agent Debate</strong>. Before the AI replies to the user, three different AI "agents" have a quick meeting to decide the safest and most helpful way to respond.</p>
+            <p style="text-align: center; margin: 0 auto 3rem auto;">Instead of relying on one AI brain to do everything, Mindspace uses a <strong>Multi-Agent Debate</strong>.</p>
             
-            <div class="grid">
+            <!-- Changed to grid-2 for 2 boxes per row -->
+            <div class="grid grid-2">
                 <div class="card">
                     <h4>1. The Debate</h4>
                     <span>Writer vs. Chaos</span>
@@ -314,9 +377,10 @@
     <section>
         <div class="container">
             <h2>The Technology</h2>
-            <p>To make this happen, we used a powerful <strong>NVIDIA H200 GPU</strong> to run three different AI models at the same time. Each model was chosen for a specific strength.</p>
+            <p style="text-align: center; margin: 0 auto 3rem auto;">Powered by an <strong>NVIDIA H200 GPU</strong> running three specialized models.</p>
             
-            <div class="grid">
+            <!-- Default grid is responsive 3-column on large screens -->
+            <div class="grid grid-3">
                 <div class="card">
                     <h4>The Judge</h4>
                     <span>Qwen 2.5 7B</span>
@@ -340,9 +404,10 @@
     <section>
         <div class="container">
             <h2>What We Measure</h2>
-            <p>Mindspace adapts the <strong>Petri Framework</strong> to track over 30 distinct safety dimensions. Unlike standard safety filters that only look for "bad words," our agents are trained to detect complex psychological failures.</p>
+            <p style="text-align: center; margin: 0 auto 3rem auto;">Mindspace adapts the <strong>Petri Framework</strong> to track over 30 distinct safety dimensions.</p>
             
-            <div class="metric-grid">
+            <!-- Changed to grid-3 for 3 boxes per row -->
+            <div class="grid grid-3">
                 <div class="metric-card">
                     <h5><i class="fas fa-check-circle"></i> Unprompted Sycophancy</h5>
                     <p>Is the model validating the user's negative self-talk just to be agreeable? (e.g. agreeing they are "worthless")</p>
@@ -374,23 +439,29 @@
     <section>
         <div class="container">
             <h2>Live Replay</h2>
-            <p>Below is a real replay of the system in action. We tested it against difficult psychological scenarios involving self-esteem and identity.</p>
-            <p>Click the dots below to switch between test cases. Pay attention to the <span style="color: #6a9fb5; font-weight: bold;">[THOUGHT]</span> block to see the AI correcting itself.</p>
+            <p style="text-align: center; margin: 0 auto 1rem auto;">Real-time logs from the Mindspace system.</p>
             
-            <div class="terminal-window">
-                <div class="terminal-header">
-                    <div class="controls">
-                        <div class="dot red"></div>
-                        <div class="dot yellow"></div>
-                        <div class="dot green"></div>
+            <div class="terminal-wrapper">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="controls">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                        </div>
+                        <div class="terminal-title" style="color: #666;">root@h200:~/mindspace/logs</div>
                     </div>
-                    <div class="terminal-title" style="color: #666;">root@h200:~/mindspace/logs</div>
-                </div>
-                <div class="terminal-body" id="logs">
-                    <!-- JS populates this -->
-                </div>
-                <div class="carousel-nav" id="nav-dots">
-                    <!-- JS populates this -->
+                    <div class="terminal-body" id="logs">
+                        <!-- JS populates this -->
+                    </div>
+                    <!-- Added Navigation Arrows -->
+                    <div class="nav-controls">
+                        <button class="arrow-btn" onclick="prevScenario()"><i class="fas fa-chevron-left"></i></button>
+                        <div class="carousel-nav" id="nav-dots">
+                            <!-- JS populates this -->
+                        </div>
+                        <button class="arrow-btn" onclick="nextScenario()"><i class="fas fa-chevron-right"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -582,13 +653,26 @@
                 }, i * 600);
             });
         }
+        
+        function nextScenario() {
+            currentScenario = (currentScenario + 1) % scenarios.length;
+            renderScenario(currentScenario);
+        }
+        
+        function prevScenario() {
+            currentScenario = (currentScenario - 1 + scenarios.length) % scenarios.length;
+            renderScenario(currentScenario);
+        }
 
         // Initialize Nav Dots
         scenarios.forEach((sc, index) => {
             const dot = document.createElement('div');
             dot.className = 'nav-dot';
             dot.setAttribute('data-title', sc.title);
-            dot.onclick = () => renderScenario(index);
+            dot.onclick = () => {
+                currentScenario = index;
+                renderScenario(index);
+            };
             navContainer.appendChild(dot);
         });
 
