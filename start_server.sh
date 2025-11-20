@@ -1,19 +1,19 @@
-cat << 'EOF' > start_server.sh
 #!/bin/bash
 # LAUNCHES 3 SPECIALIZED vLLM SERVERS ON H200
 # 1. Logic: Qwen 2.5 7B
-# 2. Chaos: DeepSeek Coder 6.7B
+# 2. Chaos: DeepSeek Coder 6.7B (Swapped from VL for stability)
 # 3. Writer: DeepSeek R1 Llama 8B
 
 source venv/bin/activate
 
 # --- CONFIGURATION ---
-# 0.3 (30%) per model. Total 90%.
+# 0.3 (30%) per model = ~42GB each. 
 GPU_UTIL=0.3 
 CTX_LEN=32768
 
 # --- MODEL DEFINITIONS ---
 MODEL_LOGIC="Qwen/Qwen2.5-7B-Instruct"
+# Swapped to Coder (Text-Only) to fix 'multi_modality' error
 MODEL_CHAOS="deepseek-ai/deepseek-coder-6.7b-instruct"
 MODEL_WRITER="deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
 
@@ -49,4 +49,3 @@ nohup python3 -m vllm.entrypoints.openai.api_server \
 
 echo ">>> Servers launching in background."
 echo ">>> Monitor logs with: tail -f logic.log chaos.log writer.log"
-EOF
