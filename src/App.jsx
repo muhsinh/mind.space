@@ -17,6 +17,8 @@ import {
   Terminal,
 } from 'lucide-react';
 
+// NOTE: The import for the image is removed because files in /public are accessed via string paths (e.g. "/filename.png")
+
 // --- UTILITY COMPONENTS ---
 
 // Animated Rainbow Border for that "subtle yet quick color shift" - REMOVED FOR TERMINAL
@@ -672,7 +674,7 @@ export default function MindspaceAnimeStyle() {
               </a>
             </motion.div>
 
-            {/* DOI BADGE ADDITION */}
+            {/* DOI BADGE ADDITION - UPDATED FOR PUBLIC FOLDER */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -686,7 +688,7 @@ export default function MindspaceAnimeStyle() {
                 className="hover:opacity-80 transition-opacity"
               >
                 <img 
-                  src="./image_25ffe5.png" 
+                  src="/doi-badge.png" 
                   alt="DOI: 10.5281/zenodo.17677440" 
                   className="h-8" 
                 />
