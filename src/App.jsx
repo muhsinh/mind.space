@@ -19,6 +19,51 @@ import {
 
 // --- UTILITY COMPONENTS ---
 
+// INLINE SVG BADGE COMPONENT (Guarantees display without file path issues)
+const DoiBadge = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="190"
+    height="20"
+    role="img"
+    aria-label="DOI: 10.5281/zenodo.17677440"
+    className="hover:opacity-80 transition-opacity"
+  >
+    <linearGradient id="s" x2="0" y2="100%">
+      <stop offset="0" stopColor="#bbb" stopOpacity=".1" />
+      <stop offset="1" stopOpacity=".1" />
+    </linearGradient>
+    <clipPath id="r">
+      <rect width="190" height="20" rx="3" fill="#fff" />
+    </clipPath>
+    <g clipPath="url(#r)">
+      <rect width="34" height="20" fill="#555" />
+      <rect x="34" width="156" height="20" fill="#007ec6" />
+      <rect width="190" height="20" fill="url(#s)" />
+    </g>
+    <g
+      fill="#fff"
+      textAnchor="middle"
+      fontFamily="Verdana,Geneva,DejaVu Sans,sans-serif"
+      textRendering="geometricPrecision"
+      fontSize="11"
+    >
+      <text x="17" y="15" fill="#010101" fillOpacity=".3">
+        DOI
+      </text>
+      <text x="17" y="14">
+        DOI
+      </text>
+      <text x="112" y="15" fill="#010101" fillOpacity=".3">
+        10.5281/zenodo.17677440
+      </text>
+      <text x="112" y="14">
+        10.5281/zenodo.17677440
+      </text>
+    </g>
+  </svg>
+);
+
 // Animated Rainbow Border for that "subtle yet quick color shift" - REMOVED FOR TERMINAL
 const RainbowBorder = ({ children, className = '', intensity = 0.5 }) => {
   return (
@@ -672,32 +717,7 @@ export default function MindspaceAnimeStyle() {
               </a>
             </motion.div>
 
-            {/* DOI BADGE ADDITION - REVERTED TO STRING PATH */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="mt-12 flex flex-col sm:flex-row justify-center gap-6"
-            >
-              <a
-                href="https://github.com/muhsinh/mind.space"
-                target="_blank"
-                rel="noreferrer"
-                className="px-8 py-4 bg-white text-black rounded-full font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2"
-              >
-                <Github size={20} /> View Source
-              </a>
-              <a
-                href="https://www.linkedin.com/in/abdulmuhsinhameed"
-                target="_blank"
-                rel="noreferrer"
-                className="px-8 py-4 bg-[#1a1a1a] text-white border border-white/10 rounded-full font-bold hover:bg-[#222] transition-colors flex items-center justify-center gap-2"
-              >
-                <Linkedin size={20} /> Contact <ArrowRight size={16} />
-              </a>
-            </motion.div>
-
-            {/* DOI BADGE ADDITION - UPDATED TO SVG IN PUBLIC FOLDER */}
+            {/* DOI BADGE ADDITION - UPDATED TO USE INLINE SVG COMPONENT */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -708,13 +728,9 @@ export default function MindspaceAnimeStyle() {
                 href="https://doi.org/10.5281/zenodo.17677440" 
                 target="_blank" 
                 rel="noreferrer"
-                className="hover:opacity-80 transition-opacity"
+                
               >
-                <img 
-                  src="/doi-badge.svg" 
-                  alt="DOI: 10.5281/zenodo.17677440" 
-                  className="h-8" 
-                />
+                <DoiBadge />
               </a>
             </motion.div>
             {/* END DOI BADGE */}
