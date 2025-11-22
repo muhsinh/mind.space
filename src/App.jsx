@@ -671,6 +671,29 @@ export default function MindspaceAnimeStyle() {
                 <Linkedin size={20} /> Contact <ArrowRight size={16} />
               </a>
             </motion.div>
+
+            {/* DOI BADGE ADDITION */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 1 }}
+              className="mt-8 flex justify-center"
+            >
+              <a 
+                href="https://doi.org/10.5281/zenodo.17677440" 
+                target="_blank" 
+                rel="noreferrer"
+                className="hover:opacity-80 transition-opacity"
+              >
+                <img 
+                  src="./image_25ffe5.png" 
+                  alt="DOI: 10.5281/zenodo.17677440" 
+                  className="h-8" 
+                />
+              </a>
+            </motion.div>
+            {/* END DOI BADGE */}
+
           </motion.div>
         </section>
 
