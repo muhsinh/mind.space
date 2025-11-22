@@ -312,7 +312,7 @@ const ARCHITECTURE_STEPS = [
     content:
       'Two specialized reviewers argue the case. The Proponent hunts for self-harm, delusion, or emotional manipulation while the Opponent defends agency and nuance.',
     details:
-      'Bringing the conflict into the open prevents hidden sycophancy or over-refusal. Legacy experiments showed this pass reduced accidental agreements with negative self-talk by 42%.',
+      'Bringing the conflict into the open prevents hidden sycophancy or over-refusal.',
     icon: Shield,
     accentColor: 'text-blue-400',
   },
