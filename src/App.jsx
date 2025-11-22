@@ -17,8 +17,6 @@ import {
   Terminal,
 } from 'lucide-react';
 
-// NOTE: The import for the image is removed because files in /public are accessed via string paths (e.g. "/filename.png")
-
 // --- UTILITY COMPONENTS ---
 
 // Animated Rainbow Border for that "subtle yet quick color shift" - REMOVED FOR TERMINAL
@@ -674,7 +672,32 @@ export default function MindspaceAnimeStyle() {
               </a>
             </motion.div>
 
-            {/* DOI BADGE ADDITION - UPDATED FOR PUBLIC FOLDER */}
+            {/* DOI BADGE ADDITION - REVERTED TO STRING PATH */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="mt-12 flex flex-col sm:flex-row justify-center gap-6"
+            >
+              <a
+                href="https://github.com/muhsinh/mind.space"
+                target="_blank"
+                rel="noreferrer"
+                className="px-8 py-4 bg-white text-black rounded-full font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2"
+              >
+                <Github size={20} /> View Source
+              </a>
+              <a
+                href="https://www.linkedin.com/in/abdulmuhsinhameed"
+                target="_blank"
+                rel="noreferrer"
+                className="px-8 py-4 bg-[#1a1a1a] text-white border border-white/10 rounded-full font-bold hover:bg-[#222] transition-colors flex items-center justify-center gap-2"
+              >
+                <Linkedin size={20} /> Contact <ArrowRight size={16} />
+              </a>
+            </motion.div>
+
+            {/* DOI BADGE ADDITION - UPDATED TO SVG IN PUBLIC FOLDER */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -688,7 +711,7 @@ export default function MindspaceAnimeStyle() {
                 className="hover:opacity-80 transition-opacity"
               >
                 <img 
-                  src="/doi-badge.png" 
+                  src="/doi-badge.svg" 
                   alt="DOI: 10.5281/zenodo.17677440" 
                   className="h-8" 
                 />
