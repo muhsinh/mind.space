@@ -19,28 +19,23 @@ import {
 
 // --- UTILITY COMPONENTS ---
 
-// INLINE SVG BADGE COMPONENT (Guarantees display without file path issues)
+// ROBUST SVG BADGE (No IDs, No ClipPaths, No Gradients - Guarantees Visibility)
 const DoiBadge = () => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
     width="190"
     height="20"
+    viewBox="0 0 190 20"
+    xmlns="http://www.w3.org/2000/svg"
     role="img"
     aria-label="DOI: 10.5281/zenodo.17677440"
     className="hover:opacity-80 transition-opacity"
   >
-    <linearGradient id="s" x2="0" y2="100%">
-      <stop offset="0" stopColor="#bbb" stopOpacity=".1" />
-      <stop offset="1" stopOpacity=".1" />
-    </linearGradient>
-    <clipPath id="r">
-      <rect width="190" height="20" rx="3" fill="#fff" />
-    </clipPath>
-    <g clipPath="url(#r)">
-      <rect width="34" height="20" fill="#555" />
-      <rect x="34" width="156" height="20" fill="#007ec6" />
-      <rect width="190" height="20" fill="url(#s)" />
-    </g>
+    {/* Grey background (Left side) */}
+    <rect width="190" height="20" rx="3" fill="#555" />
+    
+    {/* Blue background (Right side) - Drawn over the grey one */}
+    <path d="M34 0H187C188.657 0 190 1.34315 190 3V17C190 18.6569 188.657 20 187 20H34V0Z" fill="#007ec6"/>
+    
     <g
       fill="#fff"
       textAnchor="middle"
@@ -48,18 +43,13 @@ const DoiBadge = () => (
       textRendering="geometricPrecision"
       fontSize="11"
     >
-      <text x="17" y="15" fill="#010101" fillOpacity=".3">
-        DOI
-      </text>
-      <text x="17" y="14">
-        DOI
-      </text>
-      <text x="112" y="15" fill="#010101" fillOpacity=".3">
-        10.5281/zenodo.17677440
-      </text>
-      <text x="112" y="14">
-        10.5281/zenodo.17677440
-      </text>
+      {/* Text Shadows */}
+      <text x="17" y="15" fill="#010101" fillOpacity=".3">DOI</text>
+      <text x="112" y="15" fill="#010101" fillOpacity=".3">10.5281/zenodo.17677440</text>
+      
+      {/* Main Text */}
+      <text x="17" y="14">DOI</text>
+      <text x="112" y="14">10.5281/zenodo.17677440</text>
     </g>
   </svg>
 );
@@ -717,22 +707,16 @@ export default function MindspaceAnimeStyle() {
               </a>
             </motion.div>
 
-            {/* DOI BADGE ADDITION - UPDATED TO USE INLINE SVG COMPONENT */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
-              className="mt-8 flex justify-center"
-            >
+            {/* DOI BADGE ADDITION - UPDATED TO USE INLINE SVG COMPONENT WITH NO IDS */}
+            <div className="mt-8 flex justify-center">
               <a 
                 href="https://doi.org/10.5281/zenodo.17677440" 
                 target="_blank" 
                 rel="noreferrer"
-                
               >
                 <DoiBadge />
               </a>
-            </motion.div>
+            </div>
             {/* END DOI BADGE */}
 
           </motion.div>
